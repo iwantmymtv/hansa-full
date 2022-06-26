@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-export default function Home() {
+export default function Partnerek() {
   return (
     <div >
       <Head>
@@ -9,7 +9,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <p>Hello</p>
+        <p>Pasrtnerek részlet</p>
       </main>
     </div>
   )
