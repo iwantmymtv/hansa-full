@@ -1,8 +1,8 @@
 import Head from 'next/head'
 import Link from "next/link";
-
+import AddBoltForm from './create'; 
 import { DownloadOutlined,DeleteOutlined,PlusCircleOutlined } from '@ant-design/icons';
-import {Table,Spin,Input,Button,Popconfirm} from 'antd';
+import {Table,Spin,Input,Button,Popconfirm,Modal } from 'antd';
 import {useState,useEffect } from 'react';
 
 const { Search } = Input;
@@ -12,8 +12,9 @@ export default function Boltok() {
   const baseApiURL = 'http://localhost:8000/api/v1/boltok/'
   const [data, setData] = useState(null)
   const [search, setSearch] = useState('')
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [loading, setLoading] = useState(false)
+
 
   const [pagination, setPagination] = useState({
     current: 1,
@@ -84,10 +85,6 @@ export default function Boltok() {
     document.location.href = `${baseApiURL}export?search=${search}`
   }
 
-  const addNew = () => {
-    console.log("helllllooo")
-  }
-
   const handleDelete = (id) => {
     fetch(`${baseApiURL}${id}`, {
         method: "DELETE",
@@ -105,8 +102,16 @@ export default function Boltok() {
     setData(newData);
   })
   .catch(error => console.log(error))
-
   }
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleModalCancel = () => {
+    setIsModalVisible(false);
+  };
+
 
   const columns = [
     {
@@ -138,7 +143,7 @@ export default function Boltok() {
           <Link href={`boltok/${record.id}`}>
             <Button type="primary" size="small">Részletek</Button>
           </Link>
-          <Popconfirm title="Biztos kitörlöd?" onConfirm={() => handleDelete(record.id)}>
+          <Popconfirm cancelText="Mégse" title="Biztos kitörlöd?" onConfirm={() => handleDelete(record.id)}>
             <DeleteOutlined/>
           </Popconfirm>
         </div>
@@ -151,7 +156,6 @@ export default function Boltok() {
       <div style={{marginTop:"50px",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
         <Spin />
       </div>
-    
     )
   } 
 
@@ -164,13 +168,13 @@ export default function Boltok() {
       </Head>
       <main style={{marginTop:"20px"}}>
         <div style={{marginBottom:"20px",width:"100%", textAlign:"center"}}>
-        <Button onClick={addNew} type="default"  size="large" icon={<PlusCircleOutlined />} >
+        <Button onClick={showModal} type="default"  size="large" icon={<PlusCircleOutlined />} >
           Új bolt hozzáadása
         </Button>
         </div>
    
         <div style={{display:"flex"}}>
-        <Search placeholder="input search text" onSearch={onSearch} enterButton />
+        <Search placeholder="Keresés" onSearch={onSearch} enterButton />
         <Button onClick={onDownload} type="dashed" icon={<DownloadOutlined />} >
           Letöltés
         </Button>
@@ -183,6 +187,11 @@ export default function Boltok() {
         loading={loading}
         dataSource={data.results} 
         style={{marginTop:"20px"}} />
+
+
+      <Modal  title="Új bolt hozzáadás" visible={isModalVisible} footer={null} onCancel={handleModalCancel}>
+      <AddBoltForm/>
+      </Modal>
 
       </main>
     </div>

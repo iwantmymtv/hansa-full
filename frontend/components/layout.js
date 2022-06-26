@@ -49,7 +49,7 @@ export default function MainLayout({ children }) {
       </Header>
       <Content
         style={{
-          padding: "0 50px",
+          padding: "20px 50px",
         }}
       >
         <div className="site-layout-content">{children}</div>

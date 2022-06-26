@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import {useState,useEffect } from 'react';
+import { Card,Spin } from 'antd';
 
 export default function Bolt() {
   const baseApiURL = "http://localhost:8000/api/v1/boltok/";
@@ -12,12 +13,9 @@ export default function Bolt() {
   const { id } = router.query;
 
   const fetchData = () => {
-    fetch(`${baseApiURL}${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-type": "application/json",
-      },
-    })
+    setLoading(true);
+
+    fetch(`${baseApiURL}${id}`)
       .then((res) => {
         if (res.ok) {
           console.log("HTTP request successful");
@@ -29,9 +27,23 @@ export default function Bolt() {
       .then((res) => res.json())
       .then((data) => {
         setData(data);
+        setLoading(false);
+
       })
       .catch((error) => console.log(error));
   };
+
+  useEffect(() => {
+    fetchData();
+  }, [router.isReady]);
+
+  if (!data){
+    return (
+      <div style={{marginTop:"50px",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
+        <Spin />
+      </div>
+    )
+  } 
 
   return (
     <div>
@@ -41,7 +53,17 @@ export default function Bolt() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <p>{id}</p>
+          <div>
+        <Card
+          title={data.nev}
+          bordered={true}
+        >
+          <p>Partner: {data.partner.nev}</p>
+          <p>Penztargepeg száma: {data.penztargepek.length}</p> 
+          
+         
+        </Card>
+      </div>
       </main>
     </div>
   );
