@@ -14,6 +14,7 @@ export default function Cikkek() {
   const [search, setSearch] = useState('')
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [loading, setLoading] = useState(false)
+  const [filters, setFilters] = useState([])
 
 
   const [pagination, setPagination] = useState({
@@ -26,15 +27,16 @@ export default function Cikkek() {
 
   const fetchData = (params = {}) => {
     const ordering = ''
-    const search_param = params.search ? params.search : search
+    const search_param = params.search ? params.search : search  
+    const filter =   params.mennyisegiegyseg ? params.mennyisegiegyseg.join(',') : '' 
     
     if (params.sortOrder) {
       ordering = `${params.sortOrder==='ascend' ? '-' : ''}${params.sortField}` 
     }
 
-
+    console.log(params.mennyisegiegyseg)
     setLoading(true);
-    fetch(`${baseApiURL}?limit=${params.pagination.pageSize}&offset=${params.pagination.offset}&ordering=${ordering}&search=${search_param}`)
+    fetch(`${baseApiURL}?limit=${params.pagination.pageSize}&offset=${params.pagination.offset}&ordering=${ordering}&search=${search_param}&mennyisegiegyseg=${filter}`)
       .then((res) => res.json())
       .then((data) => {
         setData(data);
@@ -45,6 +47,9 @@ export default function Cikkek() {
         });
         if (params.search){
           setSearch(params.search);
+        }
+        if (params.mennyisegiegyseg){
+          setFilters(params.mennyisegiegyseg.join(','))
         }
       });
   };
@@ -150,6 +155,16 @@ export default function Cikkek() {
       dataIndex: 'mennyisegiegyseg',
       key: 'mennyisegiegyseg',
       sorter:true,
+      filters: [
+        {
+          text: 'Méter',
+          value: 'm',
+        },
+        {
+          text: 'Darab',
+          value: 'db',
+        }
+      ]
     },
     {
       title: 'Verzió',
