@@ -184,8 +184,8 @@ class CikkList(generics.ListCreateAPIView):
     queryset = Cikk.objects.all()
     serializer_class = CikkSerializer
     filterset_fields = ['nettoegysegar','verzio','partner','mennyisegiegyseg']
-    search_fields = '__all__'
-    ordering_fields = ['nettoegysegar', 'verzio','nev']
+    search_fields = ['nev','nettoegysegar','verzio','partner__nev','mennyisegiegyseg']
+    ordering_fields = '__all__'
 
 class CikkExportView(ConvertToCSVMixin,CikkList):
     output_name = "cikkek"

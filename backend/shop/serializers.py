@@ -53,12 +53,13 @@ class VasarlasSerializer(serializers.ModelSerializer):
 
 
 class CikkDetailSerializer(serializers.ModelSerializer):
+  partner = PartnerSerializer(read_only=True)
   class Meta:
     model = Cikk
-    fields = ['id','cikkszam','vonalkod', 'mennyisegiegyseg','nettoegysegar','verzio','partner','vasarlas_tetelek']
+    fields = ['id','nev','cikkszam','vonalkod', 'mennyisegiegyseg','nettoegysegar','verzio','partner','vasarlas_tetelek']
 
 class CikkSerializer(serializers.ModelSerializer):
-  partner = serializers.CharField(source="partner.nev")
+  partner_nev = serializers.CharField(source="partner.nev",read_only=True)
   class Meta:
     model = Cikk
-    fields = ['id','cikkszam','vonalkod', 'mennyisegiegyseg','nettoegysegar','verzio','partner']
+    fields = ['id','nev','cikkszam','vonalkod', 'mennyisegiegyseg','nettoegysegar','verzio','partner','partner_nev']
