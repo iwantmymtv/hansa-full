@@ -12,10 +12,10 @@ class PartnerDetailSerializer(serializers.ModelSerializer):
     fields = ['id', 'nev','boltok','vasarlasok','vasarlas_tetelek','cikkek']
 
 class BoltSerializer(serializers.ModelSerializer):
-  partner = serializers.CharField(source="partner.nev")
+  partner_nev = serializers.CharField(source="partner.nev",read_only=True)
   class Meta:
     model = Bolt
-    fields = ['id','nev','partner']
+    fields = ['id','nev','partner','partner_nev']
 
 class PenztargepSerializer(serializers.ModelSerializer):
   class Meta:
@@ -43,13 +43,13 @@ class VasarlasDetailSerializer(serializers.ModelSerializer):
     fields = ['id','esemenydatumido','vasarlasosszeg', 'bolt','penztargep','partner','vasarlas_tetelek']
 
 class VasarlasSerializer(serializers.ModelSerializer):
-  partner = serializers.CharField(source="partner.nev")
-  bolt = serializers.CharField(source="bolt.nev")
+  partner_nev = serializers.CharField(source="partner.nev")
+  bolt_nev = serializers.CharField(source="bolt.nev")
   penztargep = serializers.CharField(source="penztargep.uuid")
 
   class Meta:
     model = Vasarlas
-    fields = ['id','esemenydatumido','vasarlasosszeg', 'bolt','penztargep','partner']
+    fields = ['id','esemenydatumido','vasarlasosszeg', 'bolt','bolt_nev','penztargep','partner','partner_nev']
 
 
 class CikkDetailSerializer(serializers.ModelSerializer):

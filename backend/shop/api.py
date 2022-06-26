@@ -51,6 +51,7 @@ class BoltList(APIView):
                 Q(partner__id__icontains=search)
             )
 
+
         if order and order in self.order_options:
             self.orderby = order
 
@@ -78,7 +79,7 @@ class BoltList(APIView):
         pass
 
     def post(self, request, format=None):
-        serializer = BoltDetailSerializer(data=request.data)
+        serializer = BoltSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

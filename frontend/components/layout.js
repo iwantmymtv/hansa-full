@@ -27,7 +27,14 @@ export default function MainLayout({ children }) {
     },
   ];
   return (
-    <Layout className="layout">
+    <Layout className="layout" 
+    style={{
+      height:"100vh",
+      display:"flex",
+      flexDirection:"column",
+      justifyContent:"space-between",
+      alignItems:"space-between"
+    }}>
       <Header>
         <div className="logo" />
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
