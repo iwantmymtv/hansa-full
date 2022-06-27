@@ -79,7 +79,9 @@ export default function Cikkek() {
       pagination:{
         current: 1,
         pageSize: 5,
-        offset:0,
+        pageSizeOptions: [5,10,25,50,100],
+        offset: 0,
+        showSizeChanger: true,
       },
       search:searchTerm
     });
